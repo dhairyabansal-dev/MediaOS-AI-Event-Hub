@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Event Hub — live internet events</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <div class="ticker-bar">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span class="ticker-label">Live</span>
+    <div class="ticker-track">
+      <div class="ticker-scroll">
+        {% for title in ticker_items %}<span>{{ title }}</span>{% endfor %}
+        {% for title in ticker_items %}<span>{{ title }}</span>{% endfor %}
+      </div>
+    </div>
+    <span class="refresh-note" id="refresh-note">
+      {% if last_updated %}updated {{ last_updated.strftime('%H:%M:%S UTC') }}{% else %}not yet updated{% endif %}
+    </span>
+  </div>
+
+  <header class="hub-header">
+    <h1 class="hub-title">AI Event Hub</h1>
+    <p class="hub-subtitle">What's happening right now — grouped, not summarized. Refreshes every 2 minutes.</p>
+  </header>
+
+  <main>
+    {% if cards %}
+    <div class="event-grid" id="event-grid">
+      {% for c in cards %}
+      <a class="event-card {% if c.is_priority %}priority{% endif %}" href="/event/{{ c.event.id }}">
+        {% if c.event.thumbnail %}
+          <img class="card-thumb" src="{{ c.event.thumbnail }}" alt="" loading="lazy">
+        {% else %}
+          <div class="card-thumb placeholder">No image</div>
+        {% endif %}
+        <div class="card-body">
+          {% if c.is_priority %}<span class="priority-tag">Flagged topic</span>{% endif %}
+          <h2 class="card-title">{{ c.event.title }}</h2>
+          <div class="card-meta">
+            <div class="source-chips">
+              {% for stype, count in c.event.source_counts.items() %}
+              <span class="chip"><span class="dot"></span>{{ stype }} · {{ count }}</span>
+              {% endfor %}
+            </div>
+            <span>{{ c.age }}</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      No events yet — the fetch cycle hasn't populated anything. Check back shortly.
+    </div>
+    {% endif %}
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+feedparser
+requests
+beautifulsoup4
+rapidfuzz
+sentence-transformers
+scikit-learn
+numpy
+pydantic
+python-dotenv
+APScheduler
+jinja2
+instaloader
+playwright

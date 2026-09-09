@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ event.title }} — AI Event Hub</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="detail-wrap">
+    <a class="back-link" href="/">&larr; Back to live feed</a>
+
+    {% if is_priority %}<span class="priority-tag">Flagged topic</span>{% endif %}
+    <h1 class="detail-title">{{ event.title }}</h1>
+    <div class="detail-meta">
+      {{ event.media_count }} media item{{ 's' if event.media_count != 1 else '' }} · score {{ '%.1f'|format(event.score) }}
+    </div>
+
+    {% for stype, items in grouped.items() %}
+    <h2 class="group-heading">{{ stype }} ({{ items|length }})</h2>
+    {% for m in items %}
+    <a class="media-row" href="{{ m.url }}" target="_blank" rel="noopener">
+      {% if m.image %}
+      <img src="{{ m.image }}" alt="" loading="lazy">
+      {% endif %}
+      <div class="media-row-body">
+        <p class="media-row-title">{{ m.title }}</p>
+        <span class="media-row-source">{{ m.source }}</span>
+      </div>
+    </a>
+    {% endfor %}
+    {% endfor %}
+  </div>
+</body>
+</html>

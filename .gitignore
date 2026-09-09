@@ -1,0 +1,7 @@
+.env
+*.instaloader_session
+acquisition/providers/.instagram_followee_cache.json
+acquisition/providers/.youtube_channel_id_cache.json
+__pycache__/
+venv/
+*.pyc
